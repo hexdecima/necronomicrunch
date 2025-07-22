@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=New+Rocker&display=swap');
+
+* {
+  font-family: "New Rocker", system-ui;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000;
+  color: #fff;
+}
+
+a {
+  color: #f95e8a;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #930029;
+}

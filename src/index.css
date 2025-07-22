@@ -1,0 +1,140 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+header {
+  margin: 3rem;
+}
+
+header b {
+  font-size: 2rem;
+}
+
+.status {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  font-size: .75rem;
+  margin: 4px 0;
+}
+
+.status b {
+  background-color: #fff;
+  color: #000;
+  padding: 0 4px;
+}
+
+.container {
+  width: max(80dvw, 400px);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.switches {
+  width: 100%;
+  height: 2rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2px;
+}
+
+.switches button {
+  width: 50%;
+  border: none;
+  border-radius: 0;
+}
+
+.switches button:not(.selected-switch) {
+  background-color: #000;
+  color: #fff;
+}
+
+.switches button:not(.selected-switch):hover {
+  background-color: #222;
+}
+
+.selected-switch {
+  background-color: #fff;
+  color: #000;
+}
+
+table {
+  border-width: 2px 2px 0 2px;
+  border-style: solid;
+  border-color: #fff;
+}
+
+th {
+  padding: 8px 0;
+}
+
+.gamerow:hover {
+  background: white;
+  color: black;
+}
+
+td {
+  border-bottom: 2px solid white;
+  text-align: center;
+  padding: 4px 0;
+}
+
+.container table th {
+  font-weight: bold;
+}
+
+.sort-button {
+  background: #111;
+}
+
+.sort-button:hover {
+  cursor: pointer;
+  background: #333;
+}
+
+.container table th:nth-child(1) {
+  width: 30%;
+}
+
+#planning {
+  display: none;
+}
+
+#planning th:nth-child(1) {
+  width: 50%;
+}
+
+#planning th:nth-child(2) {
+  width: 40%;
+}
+
+#loading {
+  align-self: center;
+  margin: 3rem 0;
+}
+
+@keyframes spin {
+  0% {
+    rotate: 0deg;
+  }
+  50% {
+    rotate: 180deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
+
+.loading-spin {
+  animation: 2s spin linear infinite;
+}
+
+footer {
+  align-self: flex-end;
+}

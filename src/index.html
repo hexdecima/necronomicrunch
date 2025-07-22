@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy"> 
+    <title>The Necronomicrunch</title>
+    <link rel="icon" type="image/x-icon" href="assets/oatus.png">
+    <link href="index.css" rel="stylesheet">
+    <link href="shared.css" rel="stylesheet">
+    <script src="api.js" type="module"></script>
+    <script src="index.js" type="module" defer></script>
+  </head>
+  <body>
+    <header>
+      <b>The Necronomicrunch</b>
+    </header>
+    <div class="container">
+      <div class="switches">
+        <button id="switch-played" class="selected-switch">PLAYED</button>
+        <button id="switch-planning">PLANNING</button>
+      </div>
+      <div class="status">
+        <p>Sorting by: <b id="sorting-field">Name</b></p>
+      </div>
+      <table id="played">
+        <tr>
+          <th id="played-game" class="sort-button">Name</th>
+          <th id="played-started" class="sort-button">Started on</th>
+          <th id="played-finished" class="sort-button">Finished on</th>
+          <th id="played-episodes">Episodes</th>
+          <th id="played-link">Link</th>
+          <th id="played-willreturn" class="sort-button">Will return?</th>
+          <th id="played-deaths">Deaths</th>
+          <th id="played-time">Time</th>
+        </tr>
+      </table>
+      <table id="planning">
+        <tr>
+          <th id="planning-game">Name</th>
+          <th id="planning-played">Played?</th>
+          <th id="planning-owned">Owned?</th>
+        </tr>
+      </table>
+      <img id="loading" height="80" width="80"/>
+      <footer>
+        <p>
+        [ code by <a href="https://tilde.team/~mai">hexdecima</a> //
+        data by <a href="https://www.youtube.com/@Crunchpuff">crunchpuff</a> //
+        <a href="https://github.com/hexdecima/necronomicrunch">&lt;source&gt;</a> ]
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
