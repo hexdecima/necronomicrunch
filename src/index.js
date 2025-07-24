@@ -86,6 +86,9 @@ class Played {
       case "will_return":
         sorted = this.getSortedByReturn();
         break;
+      case "episodes":
+        sorted = this.getSortedByEpisodes();
+        break;
       default:
         sorted = null;
         break
@@ -108,6 +111,9 @@ class Played {
   }
   getSortedByReturn() {
     return this.inner.toSorted((a, b) => a.will_return?.toLowerCase() > b.will_return?.toLowerCase())
+  }
+  getSortedByEpisodes() {
+    return this.inner.toSorted((a, b) => Number(a.episodes || 0) > Number(b.episodes || 0))
   }
 }
 
@@ -277,6 +283,7 @@ function setupPlayedSorting() {
   byId("played-started").addEventListener("click", () => sortBy("started"));
   byId("played-finished").addEventListener("click", () => sortBy("finished"));
   byId("played-willreturn").addEventListener("click", () => sortBy("will_return"));
+  byId("played-episodes").addEventListener("click", () => sortBy("episodes"));
 }
 
 function setupPlanningSorting() {
