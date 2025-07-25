@@ -71,6 +71,29 @@ const PLANNING_FIELDS = {
   owned: "Owned?"
 }
 
+const PLAYED_SORTING = {
+  name: {
+    asc: "A-Z",
+    des: "Z-A"
+  },
+  started: {
+    asc: "Oldest",
+    des: "Newest"
+  },
+  finished: {
+    asc: "Newest",
+    des: "Oldest"
+  },
+  episodes: {
+    asc: "Least",
+    des: "Most"
+  },
+  will_return: {
+    asc: "Ascending",
+    des: "Descending"
+  },
+}
+
 
 class Played {
   constructor(inner) {
@@ -128,9 +151,9 @@ class Played {
       this.refresh(sorted);
 
       const orderStr = 
-        this.order == "asc" ? " (Ascending)" : 
-          (this.order == "des" ? " (Descending)" : "oopsie woopsie");
-      byId("sorting-field").innerText = PLAYED_FIELDS[field] + orderStr;
+        this.order == "asc" ? PLAYED_SORTING[field]["asc"] : 
+          (this.order == "des" ? PLAYED_SORTING[field]["des"] : "oopsie woopsie");
+      byId("sorting-field").innerText = PLAYED_FIELDS[field] + ` (${orderStr})`;
     }
   }
   getSortedByName(des) {
