@@ -371,9 +371,9 @@ function setupLoading() {
   let src;
 
   if (Math.floor(Math.random() * 10) == 0) {
-    src = "assets/gimmo.png";
+    src = "assets/gimmo_small.png";
   } else {
-    src = "assets/oatus.png";
+    src = "assets/oatus_small.png";
   }
 
   el.src = src;
