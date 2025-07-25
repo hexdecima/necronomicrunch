@@ -54,10 +54,29 @@ async function fetchSheets() {
   }
 }
 
+const PLAYED_FIELDS = {
+  name: "Name",
+  started: "Started on",
+  finished: "Finished on",
+  episodes: "Episodes",
+  link: "Link",
+  will_return: "Will return?",
+  deaths: "Deaths",
+  time: "Time"
+}
+
+const PLANNING_FIELDS = {
+  name: "Name",
+  played: "Played?",
+  owned: "Owned?"
+}
+
+
 class Played {
   constructor(inner) {
     this.inner = inner ?? [];
-    this.sorting = "name";
+    this.sorting = "";
+    this.order = "";
   }
   refresh(values) {
     if (!values) values = this.inner;
@@ -72,22 +91,24 @@ class Played {
     this.sortBy("name");
   }
   sortBy(field) {
+    let des = field == this.sorting && this.order == "asc";
+
     let sorted;
     switch (field) {
       case "name":
-        sorted = this.getSortedByName();
+        sorted = this.getSortedByName(des);
         break;
       case "started":
-        sorted = this.getSortedByStart();
+        sorted = this.getSortedByStart(des);
         break;
       case "finished":
-        sorted = this.getSortedByFinish();
+        sorted = this.getSortedByFinish(des);
         break;
       case "will_return":
-        sorted = this.getSortedByReturn();
+        sorted = this.getSortedByReturn(des);
         break;
       case "episodes":
-        sorted = this.getSortedByEpisodes();
+        sorted = this.getSortedByEpisodes(des);
         break;
       default:
         sorted = null;
@@ -95,25 +116,56 @@ class Played {
     }
 
     if (sorted != null) {
+      if (this.sorting == field) {
+        this.order = this.order == "asc" ? "des" : "asc";
+      } else {
+        this.order = "asc";
+      }
+
       this.sorting = field;
       this.refresh(sorted);
+
+      const orderStr = 
+        this.order == "asc" ? " (Ascending)" : 
+          (this.order == "des" ? " (Descending)" : "oopsie woopsie");
+      byId("sorting-field").innerText = PLAYED_FIELDS[field] + orderStr;
     }
   }
-  getSortedByName() {
-    return this.inner.toSorted((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+  getSortedByName(des) {
+    return this.inner.toSorted((a, b) => { 
+      return !!des 
+        ? a.name.toLowerCase() < b.name.toLowerCase()
+        : a.name.toLowerCase() > b.name.toLowerCase()
+    });
   }
-  getSortedByStart() {
+  getSortedByStart(des) {
     // undefined parses as `Invalid Date`, so we change that to null (which for some reason is 1970).
-    return this.inner.toSorted((a, b) => new Date(a.started || null) < new Date(b.started || null))
+    return this.inner.toSorted((a, b) => {
+      return !!des 
+        ? new Date(a.started || null) < new Date(b.started || null)
+        : new Date(a.started || null) > new Date(b.started || null)
+    })
   }
-  getSortedByFinish() {
-    return this.inner.toSorted((a, b) => new Date(a.finished || null) < new Date(b.finished || null))
+  getSortedByFinish(des) {
+    return this.inner.toSorted((a, b) => {
+      return !!des 
+        ? new Date(a.finished || null) < new Date(b.finished || null)
+        : new Date(a.finished || null) > new Date(b.finished || null)
+    })
   }
-  getSortedByReturn() {
-    return this.inner.toSorted((a, b) => a.will_return?.toLowerCase() > b.will_return?.toLowerCase())
+  getSortedByReturn(des) {
+    return this.inner.toSorted((a, b) => {
+      return !!des
+        ? a.will_return?.toLowerCase() > b.will_return?.toLowerCase()
+        : a.will_return?.toLowerCase() < b.will_return?.toLowerCase()
+    })
   }
-  getSortedByEpisodes() {
-    return this.inner.toSorted((a, b) => Number(a.episodes || 0) > Number(b.episodes || 0))
+  getSortedByEpisodes(des) {
+    return this.inner.toSorted((a, b) => {
+      return !!des 
+        ? Number(a.episodes || 0) < Number(b.episodes || 0)
+        : Number(a.episodes || 0) > Number(b.episodes || 0)
+    })
   }
 }
 
@@ -172,16 +224,18 @@ function switchTables() {
 function switchToPlayed() {
   if (activeTable == "planning") {
     switchTables();
-    document.getElementById("switch-played").classList.add("selected-switch");
-    document.getElementById("switch-planning").classList.remove("selected-switch");
+    byId("switch-played").classList.add("selected-switch");
+    byId("switch-planning").classList.remove("selected-switch");
+    byId("status").style.display = "flex";
   }
 }
 
 function switchToPlanning() {
   if (activeTable == "played") {
     switchTables();
-    document.getElementById("switch-planning").classList.add("selected-switch");
-    document.getElementById("switch-played").classList.remove("selected-switch");
+    byId("switch-planning").classList.add("selected-switch");
+    byId("switch-played").classList.remove("selected-switch");
+    byId("status").style.display = "none";
   }
 }
 
@@ -254,56 +308,23 @@ function setupTableSwitchers() {
 
 setupTableSwitchers();
 
-const PLAYED_FIELDS = {
-  name: "Name",
-  started: "Started on",
-  finished: "Finished on",
-  episodes: "Episodes",
-  link: "Link",
-  will_return: "Will return?",
-  deaths: "Deaths",
-  time: "Time"
-}
-
-const PLANNING_FIELDS = {
-  name: "Name",
-  played: "Played?",
-  owned: "Owned?"
-}
-
 function setupPlayedSorting() {
   const sortingField = document.getElementById("sorting-field");
 
-  function sortBy(field) {
-    sortingField.innerText = PLAYED_FIELDS[field];
-    played?.sortBy(field);
-  }
-
-  byId("played-game").addEventListener("click", () => sortBy("name"));
-  byId("played-started").addEventListener("click", () => sortBy("started"));
-  byId("played-finished").addEventListener("click", () => sortBy("finished"));
-  byId("played-willreturn").addEventListener("click", () => sortBy("will_return"));
-  byId("played-episodes").addEventListener("click", () => sortBy("episodes"));
-}
-
-function setupPlanningSorting() {
-  const sortingField = byId("sorting-field");
-
-  function sortBy(field) {
-    sortingField.innerText = PLANNING_FIELDS[field];
-  }
-
-  byId("planning-game").addEventListener("click", () => sortBy("name"));
+  byId("played-game").addEventListener("click", () => played?.sortBy("name"));
+  byId("played-started").addEventListener("click", () => played?.sortBy("started"));
+  byId("played-finished").addEventListener("click", () => played?.sortBy("finished"));
+  byId("played-willreturn").addEventListener("click", () => played?.sortBy("will_return"));
+  byId("played-episodes").addEventListener("click", () => played?.sortBy("episodes"));
 }
 
 function setupSorting() {
   setupPlayedSorting();
-  setupPlanningSorting();
 }
 
 function resetSorting() {
   played?.reset();
-  byId("sorting-field").innerText = PLAYED_FIELDS.name;
+  byId("sorting-field").innerText = PLAYED_FIELDS.name + " (Ascending)";
 }
 
 setupSorting();

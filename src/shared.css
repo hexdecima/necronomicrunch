@@ -18,8 +18,14 @@ body {
 a {
   color: #f95e8a;
   text-decoration: none;
+  padding: 0 2px;
 }
 
-a:visited {
+a:hover {
+  color: #000;
+  background-color: #f93e73;
+}
+
+a:visited:not(:hover) {
   color: #930029;
 }

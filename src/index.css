@@ -13,7 +13,7 @@ header b {
   font-size: 2rem;
 }
 
-.status {
+#status {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -21,7 +21,7 @@ header b {
   margin: 4px 0;
 }
 
-.status b {
+#status b {
   background-color: #fff;
   color: #000;
   padding: 0 4px;
