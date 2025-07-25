@@ -288,7 +288,7 @@ function createPlayed(playedData) {
     el.append(createTdElFrom(item.episodes));
     el.append(createTdElFrom(
       !item.link ? null :
-      `<a href="${item.link}">&lt;here&gt;</a>`)
+      `<a href="${item.link}" target="_blank">&lt;here&gt;</a>`)
     );
     el.append(createTdElFrom(item.will_return));
     el.append(createTdElFrom(item.deaths));
