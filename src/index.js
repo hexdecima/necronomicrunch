@@ -121,6 +121,8 @@ class Played {
       } else {
         this.order = "asc";
       }
+      console.log(field)
+      console.log(sorted);
 
       this.sorting = field;
       this.refresh(sorted);
@@ -132,39 +134,49 @@ class Played {
     }
   }
   getSortedByName(des) {
-    return this.inner.toSorted((a, b) => { 
-      return !!des 
-        ? a.name.toLowerCase() < b.name.toLowerCase()
-        : a.name.toLowerCase() > b.name.toLowerCase()
+    return Array.from(this.inner).sort((a, b) => { 
+      if (a.name.toLowerCase() > b.name.toLowerCase()) {
+        return des ? -1 : 1
+      } else {
+        return des ? 1 : -1
+      }
     });
   }
   getSortedByStart(des) {
     // undefined parses as `Invalid Date`, so we change that to null (which for some reason is 1970).
-    return this.inner.toSorted((a, b) => {
-      return !!des 
-        ? new Date(a.started || null) < new Date(b.started || null)
-        : new Date(a.started || null) > new Date(b.started || null)
+    return Array.from(this.inner).sort((a, b) => {
+      if (new Date(a.started || null) > new Date(b.started || null)) {
+        return des ? -1 : 1
+      } else {
+        return des ? 1 : -1
+      }
     })
   }
   getSortedByFinish(des) {
-    return this.inner.toSorted((a, b) => {
-      return !!des 
-        ? new Date(a.finished || null) < new Date(b.finished || null)
-        : new Date(a.finished || null) > new Date(b.finished || null)
+    return Array.from(this.inner).sort((a, b) => {
+      if (new Date(a.finished || null) < new Date(b.finished || null)) {
+        return des ? 1 : -1
+      } else {
+        return des ? -1 : 1
+      }
     })
   }
   getSortedByReturn(des) {
-    return this.inner.toSorted((a, b) => {
-      return !!des
-        ? a.will_return?.toLowerCase() > b.will_return?.toLowerCase()
-        : a.will_return?.toLowerCase() < b.will_return?.toLowerCase()
+    return Array.from(this.inner).sort((a, b) => {
+      if (a.will_return?.toLowerCase() > b.will_return?.toLowerCase()) {
+        return des ? -1 : 1
+      } else {
+        return des ? 1 : -1
+      }
     })
   }
   getSortedByEpisodes(des) {
-    return this.inner.toSorted((a, b) => {
-      return !!des 
-        ? Number(a.episodes || 0) < Number(b.episodes || 0)
-        : Number(a.episodes || 0) > Number(b.episodes || 0)
+    return Array.from(this.inner).sort((a, b) => {
+      if (Number(a.episodes || 0) < Number(b.episodes || 0)) {
+        return des ? 1 : -1
+      } else {
+        return des ? -1 : 1
+      }
     })
   }
 }
@@ -183,7 +195,7 @@ class Planning {
     }
   }
   getSortedByName() {
-    return this.inner.toSorted((a, b) => a.name.localeCompare(b.name))
+    return Array.from(this.inner).sort((a, b) => a.name.localeCompare(b.name))
   }
 }
 
@@ -272,7 +284,7 @@ function createPlayed(playedData) {
     el.className = "gamerow";
     el.append(createTdElFrom(item.name));
     el.append(createTdElFrom(item.started));
-    el.append(createTdElFrom(item.finished));
+    el.append(createTdElFrom(item.finished || "On-going"));
     el.append(createTdElFrom(item.episodes));
     el.append(createTdElFrom(
       !item.link ? null :
