@@ -14,11 +14,12 @@
     </header>
     <div class="container">
       <div class="switches">
-        <button id="switch-played" class="selected-switch">PLAYED</button>
-        <button id="switch-planning">PLANNING</button>
+        <button id="switch-played" class="selected-switch" disabled>PLAYED</button>
+        <button id="switch-planning" disabled>PLANNING</button>
+        <button id="switch-requested" disabled>REQUESTED</button>
       </div>
       <div id="status">
-        <p>Sorting by: <b id="sorting-field">...</b></p>
+        <p>Sorting by: <b id="sorting-field">nothing, it's loading you sillyhead.</b></p>
       </div>
       <table id="played">
         <tr>
@@ -26,7 +27,6 @@
           <th id="played-started" class="sort-button">Started on</th>
           <th id="played-finished" class="sort-button">Finished on</th>
           <th id="played-episodes" class="sort-button">Episodes</th>
-          <th id="played-link">Link</th>
           <th id="played-willreturn" class="sort-button">Will return?</th>
           <th id="played-deaths">Deaths</th>
           <th id="played-time">Time</th>
@@ -39,12 +39,16 @@
           <th id="planning-owned">Owned?</th>
         </tr>
       </table>
+      <table id="requested">
+        <th id="requested-name">Name</th>
+        <th id="requested-by">Requested by</th>
+      </table>
       <img id="loading" height="80" width="80"/>
       <footer>
         <p>
-        [ Code by <a href="https://tilde.team/~mai" target="_blank">Hexdecima</a> //
-        Data by <a href="https://www.youtube.com/@Crunchpuff" target="_blank">Crunchpuff</a> //
-        <a href="https://github.com/hexdecima/necronomicrunch" target="_blank">&lt;source&gt;</a> ]
+         Written by <a href="https://tilde.team/~mai/en" target="_blank">hexdecima</a> //
+        Managed by <a href="https://www.youtube.com/@Crunchpuff" target="_blank">Crunchpuff</a> //
+        <a href="https://github.com/hexdecima/necronomicrunch" target="_blank">&lt;source&gt;</a>
         </p>
       </footer>
     </div>

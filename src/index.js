@@ -21,9 +21,13 @@ async function fetchSheets() {
   let planning = data.sheets[2].data[0].rowData
     .slice(1)
     .map(item => item.values);
+  let requested = data.sheets[3].data[0].rowData
+    .slice(1)
+    .map(item => item.values);
 
   const lastPlayedRow = played.findIndex(row => row[0].formattedValue == null);
   const lastPlanningRow = planning.findIndex(row => row[0].formattedValue == null);
+  const lastRequestedRow = requested.findIndex(row => row[0].formattedValue == null);
 
   played = played
     .slice(0, lastPlayedRow)
@@ -41,16 +45,24 @@ async function fetchSheets() {
     }));
   planning = planning
     .slice(0, lastPlanningRow)
-    .map(row => row.slice(0, 5)
-    .map(cell => cell.formattedValue))
+    .map(row => row.slice(0, 5))
+    .map(cell => cell.map(v => v.formattedValue))
     .map(v => ({
       name: v[0],
       played: v[1],
       owned: v[2]
     }))
+  requested = requested
+    .slice(0, lastRequestedRow)
+    .map(row => row.slice(0, 2))
+    .map(cell => cell.map(v => v.formattedValue))
+    .map(v => ({
+      name: v[0],
+      requestedBy: v[1]
+    }));
 
   return {
-    played, planning
+    played, planning, requested
   }
 }
 
@@ -69,6 +81,12 @@ const PLANNING_FIELDS = {
   name: "Name",
   played: "Played?",
   owned: "Owned?"
+}
+
+const REQUESTED_FIELDS = {
+  name: "Name",
+  requested_by: "Requested by",
+  queue: "Queue (next first)"
 }
 
 const PLAYED_SORTING = {
@@ -144,8 +162,6 @@ class Played {
       } else {
         this.order = "asc";
       }
-      console.log(field)
-      console.log(sorted);
 
       this.sorting = field;
       this.refresh(sorted);
@@ -222,54 +238,93 @@ class Planning {
   }
 }
 
+class Requested {
+  constructor (inner) {
+    this.inner = inner ?? [];
+    this.sorting = "queue";
+  }
+  refresh(values) {
+    if (!values) values = this.inner;
+    const table = byId("requested");
+    clearTable("requested");
+    for (const el of createRequested(this.inner)) {
+      table.append(el);
+    }
+  }
+}
+
 /// Shorthand.
 function byId(id) {
   return document.getElementById(id);
 }
 
-let activeTable = "played"; // must be either "played" or "planning".
+let activeTable = "played"; // must be either "played", "planning" or "requested"
 let played;
 let planning;
+let requested;
 
 async function init() {
   let data = await fetchSheets();
 
   played = new Played(data.played);
   planning = new Planning(data.planning);
+  requested = new Requested(data.requested);
   played.sortBy("name");
   planning.refresh();
+  requested.refresh();
+
+  byId("switch-played").disabled = false;
+  byId("switch-planning").disabled = false;
+  byId("switch-requested").disabled = false;
   clearLoading();
 }
 
 init();
 
-function switchTables() {
-  document.getElementById(activeTable).style.display = "none";
-  if (activeTable == "played") {
-    document.getElementById("planning").style.display = "table";
-    activeTable = "planning";
-    resetSorting();
-  } else if (activeTable == "planning") {
+function switchTables(to) {
+  if (to == "played") {
     document.getElementById("played").style.display = "table";
-    activeTable = "played";
-    resetSorting();
-  } else { console.error("uhhh"); }
+    played?.reset();
+    byId("sorting-field").innerText = PLAYED_FIELDS.name + " (A-Z)";
+  } else if (to == "planning") {
+    document.getElementById("planning").style.display = "table";
+    played?.reset();
+  } else if (to == "requested") {
+    document.getElementById("requested").style.display = "table";
+    played?.reset();
+  }
+  else { console.error("uhhh"); }
+
+  document.getElementById(activeTable).style.display = "none";
+  activeTable = to;
 }
 
 function switchToPlayed() {
-  if (activeTable == "planning") {
-    switchTables();
-    byId("switch-played").classList.add("selected-switch");
+  if (activeTable != "played") {
+    switchTables("played");
     byId("switch-planning").classList.remove("selected-switch");
+    byId("switch-requested").classList.remove("selected-switch");
+    byId("switch-played").classList.add("selected-switch");
     byId("status").style.display = "flex";
   }
 }
 
 function switchToPlanning() {
-  if (activeTable == "played") {
-    switchTables();
-    byId("switch-planning").classList.add("selected-switch");
+  if (activeTable != "planning") {
+    switchTables("planning");
     byId("switch-played").classList.remove("selected-switch");
+    byId("switch-requested").classList.remove("selected-switch");
+    byId("switch-planning").classList.add("selected-switch");
+    byId("status").style.display = "none";
+  }
+}
+
+function switchToRequested() {
+  if (activeTable != "requested") {
+    switchTables("requested");
+    byId("switch-planning").classList.remove("selected-switch");
+    byId("switch-played").classList.remove("selected-switch");
+    byId("switch-requested").classList.add("selected-switch");
     byId("status").style.display = "none";
   }
 }
@@ -305,14 +360,13 @@ function createPlayed(playedData) {
   for (let item of playedData) {
     let el = document.createElement("tr");
     el.className = "gamerow";
-    el.append(createTdElFrom(item.name));
-    el.append(createTdElFrom(item.started));
-    el.append(createTdElFrom(item.finished || "On-going"));
-    el.append(createTdElFrom(item.episodes));
     el.append(createTdElFrom(
-      !item.link ? null :
-      `<a href="${item.link}" target="_blank">&lt;here&gt;</a>`)
+      !item.link ? item.name :
+      `<a href="${item.link}" target="_blank">${item.name}</a>`)
     );
+    el.append(createTdElFrom(item.started));
+    el.append(createTdElFrom(item.finished || ""));
+    el.append(createTdElFrom(item.episodes));
     el.append(createTdElFrom(item.will_return));
     el.append(createTdElFrom(item.deaths));
     el.append(createTdElFrom(item.time));
@@ -320,6 +374,20 @@ function createPlayed(playedData) {
   }
 
   return playedEls
+}
+
+function createRequested(requestedData) {
+  const requestedEls = [];
+
+  for (let item of requestedData) {
+    let el = document.createElement("tr");
+    el.className = "gamerow";
+    el.append(createTdElFrom(item.name));
+    el.append(createTdElFrom(item.requestedBy));
+    requestedEls.push(el);
+  }
+
+  return requestedEls
 }
 
 /// Remove all rows of a table `id` but its head.
@@ -335,10 +403,11 @@ function clearTable(id) {
 
 /// Configures the switching and styling of the PLAYED and PLANNING buttons at the top.
 function setupTableSwitchers() {
-  let switchPlayedBtn = document.getElementById("switch-played");
-  switchPlayedBtn.addEventListener("click", switchToPlayed);
+  const switchPlayedBtn = byId("switch-played");
   switchPlayedBtn.classList.add("selected-switch");
-  document.getElementById("switch-planning").addEventListener("click", switchToPlanning);
+  switchPlayedBtn.addEventListener("click", switchToPlayed);
+  byId("switch-planning").addEventListener("click", switchToPlanning);
+  byId("switch-requested").addEventListener("click", switchToRequested);
 }
 
 setupTableSwitchers();
@@ -355,11 +424,6 @@ function setupPlayedSorting() {
 
 function setupSorting() {
   setupPlayedSorting();
-}
-
-function resetSorting() {
-  played?.reset();
-  byId("sorting-field").innerText = PLAYED_FIELDS.name + " (Ascending)";
 }
 
 setupSorting();
