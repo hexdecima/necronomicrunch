@@ -129,6 +129,7 @@ class Played {
   }
   reset() {
     this.sorting = "name";
+    this.order = "des";
     this.sortBy("name");
   }
   sortBy(field) {
@@ -285,7 +286,6 @@ function switchTables(to) {
   if (to == "played") {
     document.getElementById("played").style.display = "table";
     played?.reset();
-    byId("sorting-field").innerText = PLAYED_FIELDS.name + " (A-Z)";
   } else if (to == "planning") {
     document.getElementById("planning").style.display = "table";
     played?.reset();
