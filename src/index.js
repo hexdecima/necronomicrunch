@@ -96,10 +96,10 @@ const PLAYED_SORTING = {
   },
   started: {
     asc: "Oldest",
-    des: "Newest"
+    des: "Most Recent"
   },
   finished: {
-    asc: "Newest",
+    asc: "Newest or Unfinished",
     des: "Oldest"
   },
   episodes: {
@@ -445,8 +445,9 @@ function setupLoading() {
 
 /// Makes the spinner stop at the very bottom of the page.
 function clearLoading() {
-  const el = byId("loading");
-  el.classList.remove("loading-spin");
+  byId("loading").classList.remove("loading-spin");
+  byId("loading-text").style.display = "none";
+  byId("container").style.display = "flex";
 }
 
 setupLoading();

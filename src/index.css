@@ -35,7 +35,7 @@ header b {
 .container {
   width: max(80dvw, 400px);
 
-  display: flex;
+  display: none;
   flex-direction: column;
 }
 
@@ -129,7 +129,7 @@ td {
 
 #loading {
   align-self: center;
-  margin: 3rem 0;
+  margin: 2rem 0 14px 0;
 }
 
 @keyframes spin {
@@ -148,7 +148,23 @@ td {
   animation: 2s spin linear infinite;
 }
 
+#loading-text {
+  animation: 3s flicker linear infinite;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 footer {
   align-self: flex-end;
-  margin-bottom: 16px;
+  margin: 3rem 0 16px 0;
 }
