@@ -23,7 +23,6 @@ header b {
   justify-content: flex-end;
   font-size: .75rem;
   margin: 12px 0 2px 0;
-  padding: 4px 0;
 }
 
 #status b {
@@ -127,20 +126,27 @@ td {
   width: 15%;
 }
 
+#status-requested {
+  display: none;
+}
+
 #loading {
   align-self: center;
-  margin: 2rem 0 14px 0;
+  margin: 2rem 0 20px 0;
 }
 
 @keyframes spin {
   0% {
     rotate: 0deg;
+    scale: 1;
   }
   50% {
     rotate: 180deg;
+    scale: 1.15;
   }
   100% {
     rotate: 360deg;
+    scale: 1;
   }
 }
 
@@ -149,18 +155,19 @@ td {
 }
 
 #loading-text {
-  animation: 3s flicker linear infinite;
+  font-size: 1.1em;
+  animation: 2s flicker linear infinite;
 }
 
 @keyframes flicker {
   0% {
-    opacity: 1;
+    opacity: 0.95;
   }
   50% {
-    opacity: 0.6;
+    opacity: 0.4;
   }
   100% {
-    opacity: 1;
+    opacity: 0.95;
   }
 }
 

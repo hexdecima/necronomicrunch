@@ -305,7 +305,9 @@ function switchToPlayed() {
     byId("switch-planning").classList.remove("selected-switch");
     byId("switch-requested").classList.remove("selected-switch");
     byId("switch-played").classList.add("selected-switch");
-    byId("status").style.display = "flex";
+
+    byId("status-sorting").style.display = "block";
+    byId("status-requested").style.display = "none";
   }
 }
 
@@ -315,7 +317,9 @@ function switchToPlanning() {
     byId("switch-played").classList.remove("selected-switch");
     byId("switch-requested").classList.remove("selected-switch");
     byId("switch-planning").classList.add("selected-switch");
-    byId("status").style.display = "none";
+
+    byId("status-sorting").style.display = "none";
+    byId("status-requested").style.display = "none";
   }
 }
 
@@ -325,7 +329,9 @@ function switchToRequested() {
     byId("switch-planning").classList.remove("selected-switch");
     byId("switch-played").classList.remove("selected-switch");
     byId("switch-requested").classList.add("selected-switch");
-    byId("status").style.display = "none";
+
+    byId("status-sorting").style.display = "none";
+    byId("status-requested").style.display = "block";
   }
 }
 
@@ -434,7 +440,11 @@ function setupLoading() {
   el.classList.add("loading-spin");
   let src;
 
-  if (Math.floor(Math.random() * 10) == 0) {
+  const n = Math.floor(Math.random() * 100);
+
+  if (n < 10) {
+    src = "assets/crunch_agony.png";
+  } else if (n < 30) {
     src = "assets/gimmo_small.png";
   } else {
     src = "assets/oatus_small.png";
