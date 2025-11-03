@@ -16,6 +16,11 @@ body {
   color: #fff;
 }
 
+.louvre {
+  background: url("assets/ActualNoitaMap.png");
+  background-size: 100%;
+}
+
 a {
   color: var(--hl);
   text-decoration: none;

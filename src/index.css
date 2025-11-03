@@ -23,6 +23,7 @@ header b {
   justify-content: flex-end;
   font-size: .75rem;
   margin: 12px 0 2px 0;
+  background-color: rgba(0, 0, 0, 210);
 }
 
 #status b {
@@ -87,6 +88,7 @@ td {
   border-bottom: 2px solid white;
   text-align: center;
   padding: 6px 0;
+  background-color: rgba(0, 0, 0, 210);
 }
 
 .container table th {

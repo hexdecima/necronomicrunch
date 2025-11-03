@@ -366,10 +366,16 @@ function createPlayed(playedData) {
   for (let item of playedData) {
     let el = document.createElement("tr");
     el.className = "gamerow";
-    el.append(createTdElFrom(
+    const name = createTdElFrom(
       !item.link ? item.name :
-      `<a href="${item.link}" target="_blank">${item.name}</a>`)
-    );
+      `<a href="${item.link}" target="_blank">${item.name}</a>`);
+    if (item.name == "Noita") {
+      name.addEventListener("mouseenter", () => {
+        document.body.className = "louvre";
+      });
+    }
+    el.append(name);
+
     el.append(createTdElFrom(item.started));
     el.append(createTdElFrom(item.finished || ""));
     el.append(createTdElFrom(item.episodes));
