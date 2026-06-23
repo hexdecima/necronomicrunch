@@ -32,7 +32,8 @@ async function fetchSheets() {
   played = played
     .slice(0, lastPlayedRow)
     .map(row => row.slice(0, 8)
-    .map(cell => cell.formattedValue))
+        .map(cell => cell.formattedValue)
+    )
     .map(v => ({
       name: v[0],
       started: v[1],

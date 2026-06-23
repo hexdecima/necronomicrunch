@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Syne+Mono&display=swap');
+
+* {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-style: normal;
+  color: var(--base-bright);
+
+  margin: 0;
+  padding: 0;
+
+  --black: #01010a;
+  --bg: #01021c;
+  --bg-light: #0d0f42;
+  --bg-lightest: #060a63;
+  --teal-dark: #056860;
+  --teal: #0fafa2;
+  --yellow: #ead304;
+  --yellow-dark: #a8980d;
+  --blue: #0bc1e5;
+  --blue-light: #29d0f2;
+  --blue-dark: #1ba6c1;
+  --red: #fc3e37;
+
+
+  --light-grey: #126b59;
+  --base: #e5511b;
+  --base-bright: #f99875;
+  --base-dark: #a83e17;
+  --hl: #1c88db;
+  --hl-dark: #1c67a0;
+}
+
+body {
+  background-color: var(--bg);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 28px;
+}
+
+header {
+  margin: 5rem 0 0;
+  font-size: 2.5rem;
+}
+
+header #top {
+  font-size: 1.5rem;
+  color: var(--blue);
+}
+
+header h2 {
+  text-decoration: underline solid 2px var(--yellow);
+}
+
+a {
+  color: var(--yellow);
+}
+
+a:visited {
+  color: var(--yellow);
+}
+
+#loading {
+  margin-top: 6em;
+}
+
+@keyframes dots {
+  0% {
+    content: ".";
+  }
+  33% {
+    content: "..";
+  }
+  66% {
+    content: "...";
+  }
+  0% {
+    content: ".";
+  }
+}
+
+
+#loading p::after {
+  content: "";
+  animation: 2s dots linear infinite;
+}
+
+#main {
+  width: 75dvw;
+  height: 100px;
+
+  /* Is flex when loaded. */
+  display: none;
+  align-items: center;
+  flex-direction: column;
+
+  margin-top: 50px;
+}
+
+#host {
+  width: 60%;
+
+  display: flex;
+  flex-direction: row;
+  background-color: var(--black);
+  margin: 4rem 0;
+}
+
+#host p, b {
+  color: var(--yellow);
+  text-shadow: var(--base) 2px 2px 2px;
+}
+
+#label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--bg-lightest);
+
+  width: 60%;
+  padding: 2rem 0;
+}
+
+#win {
+  width: 20%;
+  padding: 2rem 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#win p {
+  color: var(--teal);
+  text-shadow: var(--teal-dark) 1px 1px 1px;
+}
+
+#loss {
+  width: 20%;
+  padding: 2rem 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#loss p {
+  color: var(--red);
+  text-shadow: none;
+}
+
+#chat {
+  width: 100%;
+  font-size: 1.8rem;
+}
+
+#chat p {
+  color: var(--yellow);
+  text-shadow: var(--base) 2px 2px 2px;
+  font-size: 1.4rem;
+  text-align: end;
+  margin: 0 8px 0 0;
+}
+
+#chat-inner {
+  width: 100%;
+  height: 100%;
+
+  border-width: 0;
+  border-style: solid;
+  border-color: #fff;
+  padding: 0 4px;
+}
+
+#chat-inner th:nth-child(1) {
+  width: 45%;
+}
+
+#chat-inner th:nth-child(2) {
+  width: 17%;
+}
+
+#chat-inner th:nth-child(3) {
+  width: 13%;
+}
+
+#chat-inner th:last-child {
+  width: 25%;
+}
+
+.chat-header {
+  width: 100%;
+  height: calc(2rem + 3px);
+}
+
+.chat-header:hover {
+  cursor: default;
+}
+
+.chat-header th {
+  text-align: center;
+  color: var(--yellow);
+  text-shadow: var(--base-dark) 2px 2px 1px;
+
+  padding: 12px 8px 0;
+}
+
+.chat-header th:nth-child(odd) {
+  background-color: var(--bg-lightest);
+}
+
+.chat-header th:nth-child(even) {
+  background-color: var(--bg-light);
+}
+
+.chat-row:hover {
+  cursor: default;
+
+  td {
+    border-bottom-color: var(--teal);
+    background-color: var(--bg-light);
+  }
+}
+
+.chat-row td {
+  text-align: start;
+  border-bottom: 4px solid var(--teal-dark);
+
+  padding: 12px 8px 0;
+  text-shadow: var(--base) 2px 2px 2px;
+  background-color: var(--black);
+}
+
+.score {
+  color: var(--yellow);
+  text-shadow: var(--base) 2px 2px 2px;
+}
+
+.score b:nth-child(1) {
+  color: var(--teal);
+  text-shadow: var(--teal-dark) 1px 1px 0;
+}
+
+.score b:nth-child(2) {
+  color: var(--red);
+  text-shadow: none;
+}
