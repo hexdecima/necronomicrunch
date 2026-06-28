@@ -162,6 +162,16 @@ function populateInner() {
   // }
 }
 
+function preSetup() {
+  const img = document.getElementById("loading-img");
+  const content = Math.floor(Math.random() * 2) == 1 ? 
+    "../assets/oatus_small.png" : "../assets/gimmo_small.png";
+
+  img.src = content;
+  img.style.filter = "url(#pixelate)";
+}
+
 (async () => {
+  preSetup();
   await setup();
 })();
