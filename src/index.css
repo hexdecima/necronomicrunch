@@ -10,11 +10,28 @@ body {
 }
 
 header {
-  margin: 3rem;
+  width: 100dvw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 0 0 3rem 0;
 }
 
 header b {
   font-size: 2rem;
+
+  margin: 1.25em;
+}
+
+header nav {
+  display: flex;
+  flex-direction: row;
+
+  align-self: flex-start;
+  padding: .5em .25em;
 }
 
 #status {
