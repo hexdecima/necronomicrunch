@@ -1,71 +1,4 @@
-const API_KEY = "AIzaSyDiRt8r0c2snhdg_63xL-SLay7Z1D7OmQw"; // yes, this is restricted.
-const SHEET_ID = "1FUrU4olD_55Lf9F7LgYGdqZD8xfObITvLrenmcjSAFI";
-
-async function getSheetData(sheetId) {
-  const uri = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?key=${API_KEY}&includeGridData=true`;
-
-  const data = fetch(uri)
-    .then(res => res.json())
-    .catch(e => { console.error(`uh-oh: ${e}`) });
-
-  return data;
-}
-
-/// Fetches and parses both sheets, ready to be consumed by the UI logic.
-async function fetchSheets() {
-  const data = await getSheetData(SHEET_ID);
-
-  let played = data.sheets[1].data[0].rowData
-    .slice(1)
-    .map(item => item.values);
-  let planning = data.sheets[2].data[0].rowData
-    .slice(1)
-    .map(item => item.values);
-  let requested = data.sheets[3].data[0].rowData
-    .slice(1)
-    .map(item => item.values);
-
-  const lastPlayedRow = played.findIndex(row => row[0].formattedValue == null);
-  const lastPlanningRow = planning.findIndex(row => row[0].formattedValue == null);
-  const lastRequestedRow = requested.findIndex(row => row[0].formattedValue == null);
-
-  played = played
-    .slice(0, lastPlayedRow)
-    .map(row => row.slice(0, 8)
-        .map(cell => cell.formattedValue)
-    )
-    .map(v => ({
-      name: v[0],
-      started: v[1],
-      finished: v[2],
-      episodes: v[3],
-      link: v[4],
-      will_return: v[5],
-      deaths: v[6],
-      time: v[7]
-    }));
-  planning = planning
-    .slice(0, lastPlanningRow)
-    .map(row => row.slice(0, 5))
-    .map(cell => cell.map(v => v.formattedValue))
-    .map(v => ({
-      name: v[0],
-      played: v[1],
-      owned: v[2]
-    }))
-  requested = requested
-    .slice(0, lastRequestedRow)
-    .map(row => row.slice(0, 2))
-    .map(cell => cell.map(v => v.formattedValue))
-    .map(v => ({
-      name: v[0],
-      requestedBy: v[1]
-    }));
-
-  return {
-    played, planning, requested
-  }
-}
+import { getSheetData, fetchSheet } from "./shared/scripts/api.js";
 
 const PLAYED_FIELDS = {
   name: "Name",
@@ -266,7 +199,7 @@ let planning;
 let requested;
 
 async function init() {
-  let data = await fetchSheets();
+  let data = await fetchSheet.games();
 
   played = new Played(data.played);
   planning = new Planning(data.planning);

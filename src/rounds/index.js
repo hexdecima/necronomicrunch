@@ -1,47 +1,4 @@
-const API_KEY = "AIzaSyDiRt8r0c2snhdg_63xL-SLay7Z1D7OmQw";
-const SHEET_ID = "1FUrU4olD_55Lf9F7LgYGdqZD8xfObITvLrenmcjSAFI";
-
-async function getSheetData(sheetId) {
-  const uri = 
-    `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?key=${API_KEY}&includeGridData=true`;
-
-  const data = fetch(uri)
-    .then(res => res.json())
-    .catch(e => { console.error(`uh-oh: ${e}`) });
-
-  return data;
-}
-
-// Fetches sheet data, parses it and returns relevant data.
-async function fetchData() {
-  function parseRawData(raw) {
-    const lastRow = raw.findIndex(row => row[0].formattedValue == null);
-
-    return raw.slice(0, lastRow)
-      .map(row => row.slice(0, 4)
-        .map(cell => cell.formattedValue)
-      )
-      .map(v => {
-        const [w, l] = v[3].split("-");
-
-        return {
-          name: v[0],
-          // WARN: This ignores anything but true or false being an option.
-          active: v[1] == "TRUE" ? true : false,
-          prio: v[2] == "TRUE" ? true : false,
-          w, l
-        }
-      })
-  }
-  const data = await (async () => { 
-    const raw = await getSheetData(SHEET_ID);
-    return raw.sheets[5].data[0].rowData
-      .slice(1)
-      .map(item => item.values)
-  })();
-
-  return parseRawData(data);
-}
+import { SHEET_ID, getSheetData, fetchSheet } from "../shared/scripts/api.js"
 
 function mkTexEl(type, text) {
   const el = document.createElement(type);
@@ -115,7 +72,7 @@ async function setup() {
 
 /// Fetches sheet data and updates the global scores variable.
 async function loadData() {
-  const scores = await fetchData();
+  const scores = await fetchSheet.rounds();
   entries = scores;
 }
 
