@@ -107,7 +107,7 @@ export class StableScore {
       return {
         id: rows[row][0],
         total: rows[row][1] ? Number(rows[row][1]) : 0,
-        days: rows[row].splice(2, 18).map(Number)
+        days: rows[row].splice(2, 15).map(Number)
       };
     };
     const score = new StableScore();
