@@ -1,0 +1,88 @@
+body {
+  width: 100dvw;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+header {
+  width: 100dvw;
+
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+
+  padding: .2em .4em;
+}
+
+nav a {
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.main {
+  width: 75dvw;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.main b {
+  align-self: flex-start;
+}
+
+.stables {
+  list-style: none;
+  margin-bottom: 2em;
+
+  width: 100%;
+}
+
+.stables li {
+  width: 100%;
+  background: var(--base);
+  color: var(--darkest);
+
+  padding: 0 1em;
+  border: 1px solid white;
+}
+
+.stables li:hover {
+  cursor: pointer;
+}
+
+.sub-name {
+  font-size: 1.35em;
+}
+
+.sub-rikishi {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+
+  font-size: 1.1em;
+}
+
+.sub-rikishi p:not(:first-child)::before {
+  content: " - ";
+}
+
+.sub-scores {
+  width: 100%;
+}
+
+.sub-scores:first-child {
+  margin-bottom: .5em;
+}
+
+.sub-scores th {
+  border-bottom: 1px solid var(--dark);
+}

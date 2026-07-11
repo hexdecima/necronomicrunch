@@ -5,13 +5,27 @@ export async function getSheetData(sheetId) {
   const fields = "sheets.data(rowData.values.formattedValue)";
   const uri = 
     `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?key=${API_KEY}&fields=${fields}`;
-  const start = Date.now();
 
   const data = fetch(uri)
     .then(res => res.json())
     .catch(e => { console.error(`uh-oh: ${e}`) });
 
   return data;
+}
+
+class Sheet {
+  static from(raw, sheetNo, includeFirst) {
+    const sheet = new Sheet();
+
+    sheet.items = raw.sheets[sheetNo].data[0].rowData
+      .splice(includeFirst ? 0 : 1) // First row is just labels, ignore.
+      .map(d => d.values)
+      .map(row => row.map(cell => cell.formattedValue));
+
+    return sheet;
+  }
+
+  constructor() {}
 }
 
 export const fetchSheet = {
@@ -102,4 +116,15 @@ export const fetchSheet = {
 
     return parseRawData(data);
   },
+  sumo: async function() {
+    const data = await fetchSheet.RAW();
+
+    const leaderboard = Sheet.from(data, 6);
+    const results = Sheet.from(data, 7);
+    const rikishi = Sheet.from(data, 8);
+    const sub = Sheet.from(data, 9);
+    const detailedStable = Sheet.from(data, 10, true);
+
+    return { leaderboard, results, rikishi, sub, detailedStable }
+  }
 };
