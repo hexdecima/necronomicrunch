@@ -1,6 +1,6 @@
 body {
   display: grid;
-  grid-template-rows: 20% 79%;
+  grid-template-rows: 25% 75%;
   grid-template-columns: 100%;
   align-items: center;
 
@@ -48,12 +48,12 @@ li a {
 }
 
 a button {
-  color: var(--base);
+  color: var(--white);
   height: 100%;
   width: 100%;
 
-  background: var(--dark);
-  border: 1px solid var(--base-bright);
+  background: var(--black);
+  border: 1px solid var(--grey);
   text-align: center;
   font-size: 1.2em;
 
@@ -61,9 +61,9 @@ a button {
 }
 
 a button:hover {
-  color: var(--dark);
+  color: var(--black);
 
-  background: var(--base);
+  background: var(--white);
 }
 
 a button::after {
@@ -88,4 +88,17 @@ a button::after {
   height: 34em;
 
   padding: 1em 0;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+}
+
+header img {
+  align-self: center;
+
+  width: 20em;
+  height: 20em;
+  transform: translateY(-25%);
 }

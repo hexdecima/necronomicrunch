@@ -11,10 +11,10 @@
 table {
   width: 90%;
 
-  color: var(--darkest);
+  color: var(--white);
   font-size: 1em;
-  background: var(--base); 
-  border: 1px solid var(--darkest);
+  background: var(--black); 
+  border: 1px solid var(--black);
   padding: .2em .1em;
 }
 
@@ -27,8 +27,8 @@ td, th {
 }
 
 th {
-  background-color: var(--darkest);
-  color: var(--base);
+  background-color: var(--red);
+  color: var(--black);
 }
 
 .leaderboard tr {

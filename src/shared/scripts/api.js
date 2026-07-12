@@ -2,15 +2,19 @@ export const API_KEY = "AIzaSyDiRt8r0c2snhdg_63xL-SLay7Z1D7OmQw";
 export const SHEET_ID = "1FUrU4olD_55Lf9F7LgYGdqZD8xfObITvLrenmcjSAFI";
 
 export async function getSheetData(sheetId) {
-  const fields = "sheets.data(rowData.values.formattedValue)";
+  const fields = "sheets.data(rowData.values.formattedValue),sheets.properties.title";
   const uri = 
     `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?key=${API_KEY}&fields=${fields}`;
 
-  const data = fetch(uri)
+  let data = fetch(uri)
     .then(res => res.json())
     .catch(e => { console.error(`uh-oh: ${e}`) });
 
   return data;
+}
+
+function getTable(raw, title) {
+  return raw.sheets.find(item => item.properties.title == title);
 }
 
 class Sheet {
@@ -24,8 +28,16 @@ class Sheet {
 
     return sheet;
   }
+  static fromSingle(rawSheet, includeFirst) {
+    const sheet = new Sheet();
 
-  constructor() {}
+    sheet.items = rawSheet.data[0].rowData
+      .splice(includeFirst ? 0 : 1) // First row is just labels, ignore.
+      .map(d => d.values)
+      .map(row => row.map(cell => cell.formattedValue));
+
+    return sheet;
+  }
 }
 
 export const fetchSheet = {
@@ -35,25 +47,13 @@ export const fetchSheet = {
   games: async function () {
     const data = await getSheetData(SHEET_ID);
 
-    let played = data.sheets[1].data[0].rowData
-      .slice(1)
-      .map(item => item.values);
-    let planning = data.sheets[2].data[0].rowData
-      .slice(1)
-      .map(item => item.values);
-    let requested = data.sheets[3].data[0].rowData
-      .slice(1)
-      .map(item => item.values);
-
-    const lastPlayedRow = played.findIndex(row => row[0].formattedValue == null);
-    const lastPlanningRow = planning.findIndex(row => row[0].formattedValue == null);
-    const lastRequestedRow = requested.findIndex(row => row[0].formattedValue == null);
+    let played = getTable(data, "PlayedRef").data[0].rowData;
+    let planning = getTable(data, "BacklogRef").data[0].rowData;
+    let requested = getTable(data, "Req Queue").data[0].rowData;
 
     played = played
-      .slice(0, lastPlayedRow)
-      .map(row => row.slice(0, 8)
-        .map(cell => cell.formattedValue)
-      )
+      .slice(1)
+      .map(i => i.values.map(v => v.formattedValue))
       .map(v => ({
         name: v[0],
         started: v[1],
@@ -65,18 +65,16 @@ export const fetchSheet = {
         time: v[7]
       }));
     planning = planning
-      .slice(0, lastPlanningRow)
-      .map(row => row.slice(0, 5))
-      .map(cell => cell.map(v => v.formattedValue))
+      .slice(1)
+      .map(i => i.values.map(v => v.formattedValue))
       .map(v => ({
         name: v[0],
         played: v[1],
         owned: v[2]
       }))
     requested = requested
-      .slice(0, lastRequestedRow)
-      .map(row => row.slice(0, 2))
-      .map(cell => cell.map(v => v.formattedValue))
+      .slice(1)
+      .map(i => i.values.map(v => v.formattedValue))
       .map(v => ({
         name: v[0],
         requestedBy: v[1]
@@ -88,13 +86,18 @@ export const fetchSheet = {
   },
   rounds: async function() {
     function parseRawData(raw) {
-      const lastRow = raw.findIndex(row => row[0].formattedValue == null);
-
       return raw.slice(0, lastRow)
         .map(row => row.slice(0, 4)
           .map(cell => cell.formattedValue)
         )
-        .map(v => {
+    }
+
+    const data = await getSheetData(SHEET_ID);
+    let rounds = getTable(data, "Rounds").data[0].rowData;
+    const lastRow = rounds.findIndex(row => row.values[0].formattedValue == null);
+    rounds = rounds.slice(1, lastRow)
+      .map(row => row.values.map(v => v.formattedValue))
+      .map(v => {
           const [w, l] = v[3].split("-");
 
           return {
@@ -104,26 +107,21 @@ export const fetchSheet = {
             prio: v[2] == "TRUE" ? true : false,
             w, l
           }
-        })
-    }
+        });
 
-    const data = await (async () => { 
-      const raw = await getSheetData(SHEET_ID);
-      return raw.sheets[5].data[0].rowData
-        .slice(1)
-        .map(item => item.values)
-    })();
-
-    return parseRawData(data);
+    return rounds
   },
   sumo: async function() {
     const data = await fetchSheet.RAW();
 
-    const leaderboard = Sheet.from(data, 6);
-    const results = Sheet.from(data, 7);
-    const rikishi = Sheet.from(data, 8);
-    const sub = Sheet.from(data, 9);
-    const detailedStable = Sheet.from(data, 10, true);
+    console.log(data);
+    console.log(getTable(data, "Rounds"));
+
+    const leaderboard = Sheet.fromSingle(getTable(data, "League of Oatus (Leaderboard)"));
+    const results = Sheet.fromSingle(getTable(data, "Results"));
+    const rikishi = Sheet.fromSingle(getTable(data, "Rikishi"));
+    const sub = Sheet.fromSingle(getTable(data, "SumoRef"));
+    const detailedStable = Sheet.fromSingle(getTable(data, "DetailedStableRef"), true);
 
     return { leaderboard, results, rikishi, sub, detailedStable }
   }

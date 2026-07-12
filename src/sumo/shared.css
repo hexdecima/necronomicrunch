@@ -15,12 +15,17 @@
   --base-bright: #fce1c4;
   --hl: #fc916a;
   --contrast: #fc6a89;
+
+  --red: #be191b;
+  --grey: #181818;
+  --white: #f1efe7;
+  --black: #000000;
 }
 
 body {
-  background: var(--dark);
+  background: var(--grey);
 
-  color: var(--base-bright);
+  color: var(--white);
   font-size: 1.15rem;
 }
 
@@ -55,7 +60,7 @@ header nav p {
   justify-content: center;
   align-items: center;
 
-  margin: 2em 0;
+  margin: 2em 0 0 0;
 }
 
 .title h3 {
@@ -69,20 +74,27 @@ header nav p {
   transform: translateX(.1em);
 }
 
+header img {
+  width: 25em;
+  height: 25em;
+  transform: translateY(-25%);
+  margin-bottom: -10em;
+}
+
 a {
   color: var(--contrast);
 }
 
 a button {
-  background: var(--dark);
+  background: var(--black);
   font-size: 1em;
-  border: 1px solid var(--base-bright);
-  color: var(--base-bright);
+  border: 1px solid var(--grey);
+  color: var(--white);
   font-weight: 700;
   padding: .75em 2em;
 }
 
 a button:hover {
-  background: var(--base-bright);
-  color: var(--darkest);
+  background: var(--red);
+  color: var(--black);
 }

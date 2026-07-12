@@ -48,8 +48,8 @@ nav a {
 
 .stables li {
   width: 100%;
-  background: var(--base);
-  color: var(--darkest);
+  background: var(--black);
+  color: var(--white);
 
   padding: 0 1em;
   border: 1px solid white;
@@ -61,6 +61,7 @@ nav a {
 
 .sub-name {
   font-size: 1.35em;
+  color: var(--red);
 }
 
 .sub-rikishi {
@@ -84,5 +85,5 @@ nav a {
 }
 
 .sub-scores th {
-  border-bottom: 1px solid var(--dark);
+  border-bottom: 1px solid var(--red);
 }
