@@ -62,6 +62,7 @@ nav a {
 .sub-name {
   font-size: 1.35em;
   color: var(--red);
+  font-weight: bold;
 }
 
 .sub-rikishi {

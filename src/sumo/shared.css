@@ -63,17 +63,6 @@ header nav p {
   margin: 2em 0 0 0;
 }
 
-.title h3 {
-  font-size: 3em;
-  line-height: .1em;
-}
-
-.title h2 {
-  font-size: 4.1em;
-  line-height: 1.2em;
-  transform: translateX(.1em);
-}
-
 header img {
   width: 25em;
   height: 25em;
