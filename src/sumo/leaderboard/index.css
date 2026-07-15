@@ -5,7 +5,14 @@
   flex-direction: column;
   align-items: center;
 
+  margin-bottom: 4em;
+
   font-size: 1.5em;
+}
+
+.main #tip {
+  font-size: .8em;
+  color: var(--white);
 }
 
 table {
@@ -15,15 +22,52 @@ table {
   font-size: 1em;
   background: var(--black); 
   border: 1px solid var(--black);
-  padding: .2em .1em;
+  padding-bottom: .5em;
 }
 
 table:hover {
   cursor: default;
 }
 
+details table {
+  width: 100%;
+
+  padding-bottom: 2em;
+}
+
+details table tr:not(:first-child):hover {
+  background: var(--red);
+  color: var(--black);
+}
+
+details[open] {
+  background: var(--red);
+  color: var(--black);
+
+  .lead-total {
+    color: var(--white);
+  }
+}
+
+summary {
+  padding: .5em 0;
+}
+
+summary::marker {
+  content: "";
+}
+
+summary:hover {
+  background: var(--red);
+  color: var(--black);
+
+  .lead-total {
+    color: var(--white);
+  }
+}
+
 td, th {
-  text-align: start;
+  text-align: center;
 }
 
 th {
@@ -43,13 +87,17 @@ th {
 }
 
 .lead-username {
-  width: 23%;
+  width: 20%;
 }
 
 .lead-total {
   width: 8%;
 }
 
+.lead-total:not(th) {
+  color: var(--red);
+}
+
 .lead-score {
-  width: 4.6%;
+  width: 4.8%;
 }

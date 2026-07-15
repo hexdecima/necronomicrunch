@@ -18,21 +18,11 @@ function getTable(raw, title) {
 }
 
 class Sheet {
-  static from(raw, sheetNo, includeFirst) {
-    const sheet = new Sheet();
-
-    sheet.items = raw.sheets[sheetNo].data[0].rowData
-      .splice(includeFirst ? 0 : 1) // First row is just labels, ignore.
-      .map(d => d.values)
-      .map(row => row.map(cell => cell.formattedValue));
-
-    return sheet;
-  }
-  static fromSingle(rawSheet, includeFirst) {
+  static from(rawSheet, includeFirst) {
     const sheet = new Sheet();
 
     sheet.items = rawSheet.data[0].rowData
-      .splice(includeFirst ? 0 : 1) // First row is just labels, ignore.
+      .splice(includeFirst ? 0 : 1)
       .map(d => d.values)
       .map(row => row.map(cell => cell.formattedValue));
 
@@ -114,14 +104,11 @@ export const fetchSheet = {
   sumo: async function() {
     const data = await fetchSheet.RAW();
 
-    console.log(data);
-    console.log(getTable(data, "Rounds"));
-
-    const leaderboard = Sheet.fromSingle(getTable(data, "League of Oatus (Leaderboard)"));
-    const results = Sheet.fromSingle(getTable(data, "Results"));
-    const rikishi = Sheet.fromSingle(getTable(data, "Rikishi"));
-    const sub = Sheet.fromSingle(getTable(data, "SumoRef"));
-    const detailedStable = Sheet.fromSingle(getTable(data, "DetailedStableRef"), true);
+    const leaderboard = Sheet.from(getTable(data, "League of Oatus (Leaderboard)"));
+    const results = Sheet.from(getTable(data, "Results"));
+    const rikishi = Sheet.from(getTable(data, "Rikishi"));
+    const sub = Sheet.from(getTable(data, "SumoRef"));
+    const detailedStable = Sheet.from(getTable(data, "DetailedStableRef"), true);
 
     return { leaderboard, results, rikishi, sub, detailedStable }
   }

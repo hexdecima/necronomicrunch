@@ -5,8 +5,6 @@ body {
 
   width: 100dvw;
   height: 100dvh;
-
-  overflow: hidden;
 }
 
 #container {
@@ -50,11 +48,6 @@ a button:hover {
   border-left: 12px solid var(--red);
 }
 
-a button::after {
-  content: " >>";
-  font-style: italic;
-}
-
 .details {
   display: flex;
   flex-direction: column;
@@ -72,6 +65,7 @@ a button::after {
 }
 
 header {
+  width: 100%;
   display: flex;
   flex-direction: column;
 
@@ -84,4 +78,47 @@ header img {
   width: 20em;
   height: 20em;
   transform: translateY(-25%);
+}
+
+nav {
+  width: 100%;
+
+  margin: .5em 0 0 .15em;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+nav * {
+  width: fit-content;
+}
+
+nav a {
+  color: var(--red);
+  text-decoration: none;
+}
+
+nav i {
+  font-style: italic;
+}
+
+nav a::before {
+  content: "To ";
+  color: var(--white);
+}
+
+@media screen and (width <= 960px) {
+  body {
+    overflow: visible;
+  }
+
+  .menu {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  a {
+    width: 90%;
+  }
 }

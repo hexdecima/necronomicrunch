@@ -119,6 +119,29 @@ export class StableScore {
     score.m11 = mkScore(5);
     score.maegashira = mkScore(6);
 
+    score.total = score.YOS.total
+      + score.SK.total
+      + score.m1.total
+      + score.m5.total
+      + score.m11.total
+      + score.maegashira.total;
+    score.getDayTotal = (day) => {
+      return score.YOS.days[day - 1]
+        + score.SK.days[day - 1]
+        + score.m1.days[day - 1]
+        + score.m5.days[day - 1]
+        + score.m11.days[day - 1]
+        + score.maegashira.days[day - 1];
+    };
+    score.getDayTotals = () => {
+      const totals = [];
+      for (let i = 1; i < 16; i++) {
+        totals.push(score.getDayTotal(i));
+      }
+
+      return totals;
+    };
+
     return score;
   }
 }
