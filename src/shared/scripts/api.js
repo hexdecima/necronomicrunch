@@ -43,7 +43,8 @@ export const fetchSheet = {
 
     played = played
       .slice(1)
-      .map(i => i.values.map(v => v.formattedValue))
+      .map(i => !i || !i?.values ? null : i.values.map(v => v.formattedValue))
+      .filter(v => !!v)
       .map(v => ({
         name: v[0],
         started: v[1],
@@ -56,7 +57,8 @@ export const fetchSheet = {
       }));
     planning = planning
       .slice(1)
-      .map(i => i.values.map(v => v.formattedValue))
+      .map(i => !i || !i?.values ? null : i.values.map(v => v.formattedValue))
+      .filter(v => !!v)
       .map(v => ({
         name: v[0],
         played: v[1],
@@ -64,7 +66,8 @@ export const fetchSheet = {
       }))
     requested = requested
       .slice(1)
-      .map(i => i.values.map(v => v.formattedValue))
+      .map(i => !i || !i?.values ? null : i.values.map(v => v.formattedValue))
+      .filter(v => !!v)
       .map(v => ({
         name: v[0],
         requestedBy: v[1]

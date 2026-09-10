@@ -25,9 +25,13 @@ function populateLead() {
     const standDetailHead = El.create("tr")
       .withChild(El.create("th")
         .withClass("lead-username")
-        .withText("Rikishi"));
-    for (let i = 1; i < 17; i++) {
-      standDetailHead.withChild(El.create("th").withText(""));
+        .withText("Rikishi"))
+      .withChild(El.create("th").withClass("lead-total").withText(""));
+    for (let i = 1; i < 16; i++) {
+      standDetailHead.withChild(El.create("th")
+        .withClass("lead-score")
+        .withText(`D${i}`)
+      );
     };
 
     const rikishiName = {
@@ -76,7 +80,8 @@ function populateLead() {
       .withChild(
         El.create("table")
           .withChild(standDetailHead)
-          .withChildren(detailRows.map(row => El.create("tr").withChildren(row)))
+          .withChildren(detailRows.map(row => El.create("tr")
+            .withChildren(row)))
       );
 
     lead.withChild(standEl);

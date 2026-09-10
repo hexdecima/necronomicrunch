@@ -35,6 +35,8 @@ header {
 
   display: flex;
   flex-direction: column;
+
+  margin-bottom: 1em;
 }
 
 header nav {
@@ -72,18 +74,42 @@ header img {
 
 a {
   color: var(--contrast);
+  text-decoration: none;
+
+  height: 4.5em;
+  width: 10em;
 }
 
 a button {
+  width: 0;
+  height: 0;
+  padding: 1.25em 6em;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   background: var(--black);
-  font-size: 1em;
+  font-size: 2em;
+  font-weight: 700;
   border: 1px solid var(--grey);
   color: var(--red);
-  font-weight: 700;
-  padding: .75em 2em;
 }
 
 a button:hover {
   background: var(--red);
   color: var(--black);
+}
+
+@media screen and (width <= 960px) {
+  header a:not(.home) {
+    margin: .5em 0 4em 0;
+    width: 100dvw;
+  }
+  header a:not(.home) button {
+    width: 100%;
+    padding: 1.75em 0;
+    font-size: 1.5em;
+    text-align: center;
+  }
 }

@@ -8,8 +8,8 @@ body {
 }
 
 #container {
-  height: 100%;
-  width: 100%;
+  width: 100dvw;
+  height: 100dvh;
 
   display: flex;
   flex-direction: column;
@@ -29,15 +29,14 @@ a {
 
 a button {
   color: var(--white);
-  height: 100%;
   width: 100%;
 
   background-color: var(--black);
   border-left: 4px solid var(--red);
   text-align: center;
-  font-size: 1.8em;
-  padding: .75em inherit;
-  transition: border-left .5s linear, color .5s linear;
+  font-size: 2em;
+  padding: 1.5em 0;
+  transition: border-left .25s linear, color .25s linear;
 
   text-decoration: none;
 }
@@ -58,8 +57,8 @@ a button:hover {
 }
 
 .details img {
-  width: 38em;
-  height: 34em;
+  width: 32em;
+  height: 32em;
 
   padding: 1em 0;
 }
@@ -73,8 +72,6 @@ header {
 }
 
 header img {
-  align-self: center;
-
   width: 20em;
   height: 20em;
   transform: translateY(-25%);
@@ -86,6 +83,7 @@ nav {
   margin: .5em 0 0 .15em;
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
   gap: 1em;
 }
 
@@ -112,13 +110,23 @@ nav a::before {
     overflow: visible;
   }
 
+  .details img {
+    width: 18em;
+    height: 18em;
+
+    padding: 1em 0;
+  }
+
   .menu {
     flex-direction: column;
     justify-content: center;
+    gap: 1.7em;
     align-items: center;
+    width: 100%;
+    margin-bottom: 2em;
   }
 
   a {
-    width: 90%;
+    width: 100%;
   }
 }

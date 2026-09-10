@@ -7,25 +7,6 @@ body {
   align-items: center;
 }
 
-header {
-  width: 100dvw;
-
-  display: flex;
-  flex-direction: column;
-}
-
-nav {
-  display: flex;
-  flex-direction: row;
-
-  padding: .2em .4em;
-}
-
-nav a {
-  text-decoration: none;
-  font-size: 1.2em;
-}
-
 .main {
   width: 75dvw;
 
@@ -37,6 +18,10 @@ nav a {
 
 .main b {
   align-self: flex-start;
+  color: var(--red);
+  font-weight: bold;
+  text-shadow: var(--black) 0 1px 1px;
+  font-size: 1.1em;
 }
 
 .stables {
@@ -51,7 +36,7 @@ nav a {
   background: var(--black);
   color: var(--white);
 
-  padding: 0 1em;
+  padding: .25em 1em;
   border: 1px solid var(--red);
 }
 
@@ -69,6 +54,7 @@ nav a {
   display: flex;
   flex-direction: row;
   gap: 8px;
+  flex-wrap: wrap;
 
   font-size: 1.1em;
 }
@@ -78,7 +64,21 @@ nav a {
 }
 
 .sub-scores {
-  width: 100%;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  table-layout: fixed;
+  overflow: scroll;
+
+  font-size: 1.4em;
+}
+
+.sub-scores th:first-child, tr:first-child {
+  width: 16em;
+}
+
+.sub-scores th:not(:first-child), td:not(:first-child) {
+  width: 3em;
 }
 
 .sub-scores:first-child {
@@ -86,5 +86,12 @@ nav a {
 }
 
 .sub-scores th {
+  color: var(--red);
   border-bottom: 1px solid var(--red);
+}
+
+@media screen and (width <= 960px) {
+  .main {
+    width: 94dvw;
+  }
 }
