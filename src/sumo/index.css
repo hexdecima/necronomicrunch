@@ -13,6 +13,7 @@ body {
 
   display: flex;
   flex-direction: column;
+  gap: 4em;
 }
 
 .menu {
@@ -53,7 +54,11 @@ a button:hover {
 
   align-items: center;
 
-  padding: 4em 0;
+  padding: 0 0 1em 0;
+}
+
+.details:hover {
+  cursor: default;
 }
 
 .details img {
@@ -61,6 +66,18 @@ a button:hover {
   height: 32em;
 
   padding: 1em 0;
+}
+
+.details #announcement {
+  font-size: 2em;
+  margin-bottom: .25em;
+}
+
+.details #announcement b {
+  font-weight: 600;
+  color: var(--red); 
+  background: var(--black);
+  padding: .1em .5em;
 }
 
 header {
