@@ -160,4 +160,7 @@ export class StableTable {
 
     return table;
   }
+  listByScore() {
+    return this.items.sort((lhs, rhs) => rhs.total - lhs.total);
+  }
 }

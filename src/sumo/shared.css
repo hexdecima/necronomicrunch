@@ -20,6 +20,8 @@
   --grey: #181818;
   --white: #f1efe7;
   --black: #000000;
+  --dark-red: #1c090a;
+  --darkest-red: #0f0606;
 }
 
 body {
@@ -72,7 +74,7 @@ header img {
   margin-bottom: -10em;
 }
 
-a {
+a:not(.ignore-a) {
   color: var(--contrast);
   text-decoration: none;
 
@@ -80,7 +82,7 @@ a {
   width: 10em;
 }
 
-a button {
+a:not(.ignore-a) button {
   width: 0;
   height: 0;
   padding: 1.25em 6em;
@@ -96,7 +98,7 @@ a button {
   color: var(--red);
 }
 
-a button:hover {
+a:not(.ignore-a) button:hover {
   background: var(--red);
   color: var(--black);
 }

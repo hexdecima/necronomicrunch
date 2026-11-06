@@ -1,9 +1,11 @@
 export class El {
+  // Reference to a new element.
   static create(type) {
     const el = new El();
     el.inner = document.createElement(type);
     return el;
   }
+  // Reference to an existing element.
   static fromId(id) {
     const el = new El();
     el.inner = document.getElementById(id);
@@ -18,6 +20,10 @@ export class El {
     for (const className of classes) {
       this.inner.classList.add(className);
     }
+    return this;
+  }
+  withId(id) {
+    this.inner.id = id;
     return this;
   }
   withChild(child) {

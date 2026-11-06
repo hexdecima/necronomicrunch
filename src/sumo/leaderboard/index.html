@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
-    <title>The Necronomicrunch</title>
+    <title>League of Oatus - Leaderboard</title>
     <link rel="icon" type="image/x-icon" href="../../assets/oatus_small.png">
     <link href="../shared.css" rel="stylesheet">
     <link href="./index.css" rel="stylesheet">
@@ -13,75 +13,27 @@
 
   <body>
     <header>
-      <nav>
-        <a href="/sumo">
-          <button>BACK</button>
-        </a>
-      </nav>
+      <a href="/sumo" class="ignore-a">
+        <button id="back-btn" class="return-btn">BACK</button>
+      </a>
     </header>
-
-    <div class="main">
-      <i id="tip">TIP: Click a user for more details.</i>
-      <table class="leaderboard" id="leaderboard">
-        <tr>
-          <th class="lead-username">
-            <b>Username</b>
-          </th>
-          <th class="lead-total">
-            <b>Total</b>
-          </th>
-
-          <th class="lead-score">
-            <b>D1</b>
-          </th>
-          <th class="lead-score">
-            <b>D2</b>
-          </th>
-          <th class="lead-score">
-            <b>D3</b>
-          </th>
-          <th class="lead-score">
-            <b>D4</b>
-          </th>
-          <th class="lead-score">
-            <b>D5</b>
-          </th>
-          <th class="lead-score">
-            <b>D6</b>
-          </th>
-          <th class="lead-score">
-            <b>D7</b>
-          </th>
-          <th class="lead-score">
-            <b>D8</b>
-          </th>
-          <th class="lead-score">
-            <b>D9</b>
-          </th>
-          <th class="lead-score">
-            <b>D10</b>
-          </th>
-          <th class="lead-score">
-            <b>D11</b>
-          </th>
-          <th class="lead-score">
-            <b>D12</b>
-          </th>
-          <th class="lead-score">
-            <b>D13</b>
-          </th>
-          <th class="lead-score">
-            <b>D14</b>
-          </th>
-          <th class="lead-score">
-            <b>D15</b>
-          </th>
-        </tr>
-      </table>
+    <div id="stables">
     </div>
 
-    <div class="title">
-      <img src="../../assets/league_of_oatus_logo_white.png"/>
+    <footer id="footer">
+      <img id="logo" src="../../assets/league_of_oatus_logo_white.png"/>
+      <a href="/sumo/leaderboard/v1">
+        <i>To old Leaderboard page</i>
+      </a>
+    </footer>
+
+    <div id="inspect-container">
+      <div id="inspect">
+        <button id="close" class="return-btn">CLOSE</button>
+        <h2 id="stable-name"></h2>
+        <div id="stable">
+        </div>
+      </div>
     </div>
   </body>
 </html>
