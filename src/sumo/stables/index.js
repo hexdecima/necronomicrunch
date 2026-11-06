@@ -30,6 +30,9 @@ function populateSubmissions() {
   const stables = byId("stables");
 
   for (const stable of stableTable.items) {
+    // Fixes "undefined" stables if Crunchius Puffius doesn't add submissions properly.
+    if (!stable.username) continue;
+
     // TODO: Split this cat's cradle.
     const subLi = document.createElement("li");
     const subDetails = document.createElement("details");

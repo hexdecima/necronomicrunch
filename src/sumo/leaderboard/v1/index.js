@@ -22,6 +22,8 @@ function populateLead() {
   const lead = El.fromId("leaderboard");
 
   for (const stable of stableTable.items) {
+    if (!stable.username) continue;
+
     const standDetailHead = El.create("tr")
       .withChild(El.create("th")
         .withClass("lead-username")

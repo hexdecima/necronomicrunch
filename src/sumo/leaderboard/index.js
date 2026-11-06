@@ -167,10 +167,14 @@ function populateStables() {
   const stables = El.fromId("stables");
 
   const cards = stableTable.listByScore().map((stable, idx)=> {
+    if (!stable.username) {
+      return null
+    }
+
     const card = El.create("div")
     .withClass("stable-card")
     .withChild(El.create("i").withText(`# ${idx + 1}`))
-    .withChild(El.create("b").withText(stable.username ?? "?"))
+    .withChild(El.create("b").withText(stable.username))
     .withChild(El.create("p").withText(`${stable.total} pts.`))
     .withChild(El.create("div")
       .withClass("stable-card-pts")
@@ -190,7 +194,7 @@ function populateStables() {
     return card;
   });
 
-  stables.withChildren(cards);
+  stables.withChildren(cards.filter(c => !!c));
 }
 
 function showOverlay(stable) {
